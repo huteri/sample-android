@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { config } from '../../config';
 
 export const authHandler: Handler = async (req, res) => {
-  const { user: username, password } = req.body;
+  const { username, password } = req.body;
 
   try {
     const user = await userSchema.findOne({ username });

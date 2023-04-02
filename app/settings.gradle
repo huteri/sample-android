@@ -15,4 +15,7 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Seek max"
 include ':app'
-include ':core:data'
+include ':core'
+include ':features:main'
+include ':features:theme'
+include ':features:login'

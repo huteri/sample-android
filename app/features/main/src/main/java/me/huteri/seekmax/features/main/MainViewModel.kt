@@ -1,0 +1,31 @@
+package me.huteri.seekmax.features.main
+
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import me.huteri.seekmax.data.repositories.UserRepository
+import javax.inject.Inject
+
+@HiltViewModel
+class MainViewModel @Inject constructor(val userRepository: UserRepository): ViewModel() {
+    private val _state = MutableStateFlow(MainState())
+    val state = _state.asStateFlow()
+
+    init {
+        if(userRepository.getAuthToken().isNullOrBlank()) {
+            _state.update { it.copy(navigateToLogin = true) }
+        }
+    }
+
+    fun logout() {
+        userRepository.saveAuthToken("")
+        _state.update { it.copy(navigateToLogin = true) }
+    }
+
+    data class MainState(
+        val isLoading: Boolean = false,
+        val navigateToLogin: Boolean = false
+    )
+}

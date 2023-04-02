@@ -2,6 +2,9 @@ package me.huteri.seekmax.features.main.jobs
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.skydoves.sandwich.message
+import com.skydoves.sandwich.onError
+import com.skydoves.sandwich.onException
 import com.skydoves.sandwich.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,13 +39,36 @@ class JobsViewModel @Inject constructor(val jobRepository: JobRepository) : View
                             jobs = this.data
                         )
                     }
+                }.onError {
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            error = this.errorBody?.string()
+                        )
+                    }
+                }.onException {
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            error = this.message
+                        )
+                    }
                 }
         }
+    }
 
+    fun errorShown() {
+        _state.update {
+            it.copy(
+                error = null
+            )
+        }
     }
 
     data class JobsState(
         val isLoading: Boolean = false,
-        val jobs: List<Job>? = null
+        val jobs: List<Job>? = null,
+        val error: String? = null
+
     )
 }

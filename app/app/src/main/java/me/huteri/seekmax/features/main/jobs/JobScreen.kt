@@ -1,5 +1,6 @@
 package me.huteri.seekmax.features.main.jobs
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,10 +26,17 @@ fun JobsScreen() {
     val viewModel = hiltViewModel<JobsViewModel>()
     val state by viewModel.state.collectAsState()
 
+    if(state.error != null) {
+        Toast.makeText(LocalContext.current, state.error, Toast.LENGTH_SHORT).show()
+        viewModel.errorShown()
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize().background(SecondaryColor),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(SecondaryColor),
     ) {
 
         if (state.isLoading) {

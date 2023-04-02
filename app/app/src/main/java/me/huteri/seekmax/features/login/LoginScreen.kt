@@ -1,5 +1,6 @@
 package me.huteri.seekmax.features.login
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -7,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 
@@ -17,9 +19,14 @@ fun LoginScreen(
     onNavigateToMain: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        if(state.authToken != null) {
-
+        if (state.authToken != null) {
+            onNavigateToMain.invoke()
         }
+
+        if (state.error != null) {
+            Toast.makeText(LocalContext.current, state.error, Toast.LENGTH_SHORT).show()
+        }
+
         if (state.isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center)

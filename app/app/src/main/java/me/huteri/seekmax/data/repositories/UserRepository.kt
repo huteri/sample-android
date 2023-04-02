@@ -1,5 +1,6 @@
 package me.huteri.seekmax.data.repositories
 
+import com.skydoves.sandwich.ApiResponse
 import me.huteri.seekmax.data.local.PreferencesManager
 import me.huteri.seekmax.data.remote.RemoteApi
 import me.huteri.seekmax.data.remote.model.request.LoginRequest
@@ -7,13 +8,13 @@ import me.huteri.seekmax.model.User
 import javax.inject.Inject
 
 interface UserRepository {
-    suspend fun login(username: String, password: String): String
+    suspend fun login(username: String, password: String): ApiResponse<String>
     fun saveAuthToken(authToken: String)
     fun getAuthToken(): String?
 }
 
 class UserRepositoryImpl @Inject constructor(val remoteApi: RemoteApi, val preferencesManager: PreferencesManager) : UserRepository {
-    override suspend fun login(username: String, password: String): String {
+    override suspend fun login(username: String, password: String): ApiResponse<String> {
         return remoteApi.login(LoginRequest(username, password))
     }
 

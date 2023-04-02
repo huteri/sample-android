@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
+import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
 
 
 @Module
@@ -37,6 +38,7 @@ class NetworkModule {
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
             .client(okHttpClient)
             .build()
             .create(RemoteApi::class.java)
@@ -74,7 +76,7 @@ class NetworkModule {
 
         var request = chain.request()
         val headers = request
-            .headers()
+            .headers
             .newBuilder()
 //        if (authorizationToken.isNotEmpty()) {
 //            headers.add("Authorization", authorizationToken)

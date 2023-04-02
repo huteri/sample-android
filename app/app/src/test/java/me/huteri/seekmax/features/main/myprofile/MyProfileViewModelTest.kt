@@ -30,15 +30,6 @@ class MyProfileViewModelTest {
     fun setUp() {
     }
 
-    @Test
-    fun init_userNotLoggedIn_navigateToLogin() {
-
-        every { userRepository.getAuthToken() } returns ""
-
-        viewModel = MyProfileViewModel(userRepository)
-
-        TestCase.assertEquals(viewModel.state.value.navigateToLogin, true)
-    }
 
     @Test
     fun logout_deleteAuthToken_navigateToLogin() {

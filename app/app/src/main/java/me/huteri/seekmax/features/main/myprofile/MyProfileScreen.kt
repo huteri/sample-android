@@ -20,7 +20,7 @@ fun ProfileScreen() {
     val viewModel = hiltViewModel<MyProfileViewModel>()
     val state by viewModel.state.collectAsState()
 
-    if(state.navigateToLogin) {
+    if (state.navigateToLogin) {
         NavigationUtils.navigateToLogin(LocalContext.current)
     }
 

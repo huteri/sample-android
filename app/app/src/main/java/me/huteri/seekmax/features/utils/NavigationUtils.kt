@@ -10,7 +10,6 @@ object NavigationUtils {
     fun navigateToLogin(context: Context) {
         context.startActivity(Intent(context, LoginActivity::class.java))
     }
-
     fun navigateToMain(context: Context) {
         context.startActivity(Intent(context, MainActivity::class.java))
     }

@@ -23,7 +23,6 @@ class MyProfileViewModel @Inject constructor(val userRepository: UserRepository)
     init {
         if(userRepository.getAuthToken().isNullOrBlank()) {
             _state.update { it.copy(navigateToLogin = true) }
-
         } else {
             val user =  userRepository.getUser()
             _state.update {
@@ -51,8 +50,7 @@ class MyProfileViewModel @Inject constructor(val userRepository: UserRepository)
                 .onSuccess {
                     _state.update { it.copy(
                         isLoading = false,
-                        user = this.data,
-                        message = "Updated successfully"
+                        user = this.data
                     ) }
                 }
                 .onError {

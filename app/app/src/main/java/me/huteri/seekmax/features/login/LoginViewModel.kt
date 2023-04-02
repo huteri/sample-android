@@ -52,6 +52,12 @@ class LoginViewModel @Inject constructor(val userRepository: UserRepository) : V
         }
     }
 
+    fun errorShown() {
+        _state.update {
+            it.copy(error =  null)
+        }
+    }
+
     data class LoginState(
         val isLoading: Boolean = false,
         val authToken: String? = null,

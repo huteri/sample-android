@@ -1,6 +1,7 @@
 package me.huteri.seekmax.data.repositories
 
 import com.skydoves.sandwich.ApiResponse
+import com.skydoves.sandwich.suspendOnSuccess
 import me.huteri.seekmax.data.local.PreferencesManager
 import me.huteri.seekmax.data.remote.RemoteApi
 import me.huteri.seekmax.data.remote.model.request.LoginRequest
@@ -15,7 +16,9 @@ interface UserRepository {
 
 class UserRepositoryImpl @Inject constructor(val remoteApi: RemoteApi, val preferencesManager: PreferencesManager) : UserRepository {
     override suspend fun login(username: String, password: String): ApiResponse<String> {
-        return remoteApi.login(LoginRequest(username, password))
+        return remoteApi.login(LoginRequest(username, password)).suspendOnSuccess {
+            saveAuthToken(this.data)
+        }
     }
 
     override fun saveAuthToken(authToken: String) {

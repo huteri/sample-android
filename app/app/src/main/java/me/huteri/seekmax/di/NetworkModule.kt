@@ -1,6 +1,7 @@
 package me.huteri.seekmax.di
 
 import android.util.Log
+import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -19,6 +20,7 @@ import javax.inject.Singleton
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
 import com.skydoves.sandwich.adapters.ApiResponseCallAdapterFactory
+import me.huteri.seekmax.data.local.PreferencesManager
 
 
 @Module
@@ -71,17 +73,16 @@ class NetworkModule {
 
 
     @Provides
-    fun provideHeaderAuthorizationInterceptor() = Interceptor { chain ->
-//        val authorizationToken: String = preferences.getString("Authorization", "")!!
+    fun provideHeaderAuthorizationInterceptor(preferencesManager: PreferencesManager) = Interceptor { chain ->
+        val authorizationToken = preferencesManager.authToken
 
         var request = chain.request()
         val headers = request
             .headers
             .newBuilder()
-//        if (authorizationToken.isNotEmpty()) {
-//            headers.add("Authorization", authorizationToken)
-//            Log.d("NetworkModule", authorizationToken)
-//        }
+        if (authorizationToken?.isEmpty() == false) {
+            headers.add("Authorization", authorizationToken)
+        }
         request = request.newBuilder().headers(headers.build()).build()
         chain.proceed(request)
     }

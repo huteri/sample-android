@@ -34,6 +34,20 @@ export const authHandler: Handler = async (req, res) => {
   }
 };
 
+export const updateNameHandler: Handler = async (req, res) => {
+  const { displayname } = req.body;
+
+  try {
+    const user = await userSchema.findOneAndUpdate({ _id: req.userId }, { displayname: displayname}, {new: true});
+
+    console.log(req.userId)
+    return res.status(200).json(user);
+  } catch (err) {
+    console.log(err)
+    return res.status(500).send();
+  }
+};
+
 export const getUserById: Handler = async (req, res) => {
   const { id } = req.params;
 

@@ -14,17 +14,6 @@ class MainViewModel @Inject constructor(val userRepository: UserRepository): Vie
     private val _state = MutableStateFlow(MainViewModel.MainState())
     val state = _state.asStateFlow()
 
-    init {
-        if(userRepository.getAuthToken().isNullOrBlank()) {
-            _state.update { it.copy(navigateToLogin = true) }
-        }
-    }
-
-    fun logout() {
-        userRepository.saveAuthToken("")
-        _state.update { it.copy(navigateToLogin = true) }
-    }
-
     data class MainState(
         val isLoading: Boolean = false,
         val navigateToLogin: Boolean = false

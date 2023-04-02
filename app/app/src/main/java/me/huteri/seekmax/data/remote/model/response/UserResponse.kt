@@ -5,7 +5,7 @@ import me.huteri.seekmax.model.User
 
 data class UserResponse(
     val username: String?,
-    @SerializedName("display_name")
+    @SerializedName("displayname")
     val displayName: String?
 ) {
     fun toUser(): User {

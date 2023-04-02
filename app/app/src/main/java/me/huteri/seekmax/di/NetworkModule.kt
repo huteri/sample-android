@@ -1,7 +1,6 @@
 package me.huteri.seekmax.di
 
 import android.util.Log
-import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -81,7 +80,7 @@ class NetworkModule {
             .headers
             .newBuilder()
         if (authorizationToken?.isEmpty() == false) {
-            headers.add("Authorization", authorizationToken)
+            headers.add("Authorization", "Basic $authorizationToken")
         }
         request = request.newBuilder().headers(headers.build()).build()
         chain.proceed(request)

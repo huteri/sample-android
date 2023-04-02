@@ -8,7 +8,7 @@ import {
   getPaginatedActiveJobsHandler,
   getPaginatedJobsHandler,
 } from './api/jobs';
-import { authHandler, getUserById } from './api/auth';
+import { authHandler, getUserById, updateNameHandler } from './api/auth';
 import { authMiddleware, optionalAuthMiddleware } from './middleware/auth';
 import { toggleApplicationHandler } from './api/application';
 
@@ -38,6 +38,7 @@ const app = express()
   })
   .post('/auth', authHandler)
   .get('/user/:id', [authMiddleware, getUserById])
+  .post('/user', [authMiddleware, updateNameHandler])
   .get('/jobs', [optionalAuthMiddleware, getPaginatedJobsHandler])
   .get('/jobs/published', [
     optionalAuthMiddleware,

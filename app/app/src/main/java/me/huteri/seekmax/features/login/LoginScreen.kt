@@ -35,7 +35,6 @@ fun LoginScreen(
             })
         },
         content = { it
-
             Box(modifier = Modifier.fillMaxSize()) {
                 if (state.isLoading) {
                     CircularProgressIndicator(
@@ -49,7 +48,7 @@ fun LoginScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(16.dp),
-                        verticalArrangement = Arrangement.Center
+                        verticalArrangement = Arrangement.Top
                     ) {
                         Text(
                             text = "Welcome back!",
@@ -59,14 +58,18 @@ fun LoginScreen(
                         TextField(
                             value = username.value,
                             onValueChange = { username.value = it },
-                            label = { Text("Username") }
+                            label = { Text("Username") },
+                            maxLines = 1,
+                            modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(Modifier.height(16.dp))
                         TextField(
                             value = password.value,
                             onValueChange = { password.value = it },
                             label = { Text("Password") },
-                            visualTransformation = PasswordVisualTransformation()
+                            visualTransformation = PasswordVisualTransformation(),
+                            maxLines = 1,
+                            modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(Modifier.height(32.dp))
                         Button(
